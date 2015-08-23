@@ -1,41 +1,66 @@
-﻿Shader "Custom/ColorReplace" {
-	Properties {
-		_Color ("Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
-		_Glossiness ("Smoothness", Range(0,1)) = 0.5
-		_Metallic ("Metallic", Range(0,1)) = 0.0
-	}
-	SubShader {
-		Tags { "RenderType"="Opaque" }
-		LOD 200
-		
+// Unlit alpha-blended shader.
+// - no lighting
+// - no lightmap support
+// - no per-material color
+
+Shader "Sprites/ColorReplace" {
+Properties {
+	_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
+	_Color ("ReplaceWith", Color) = (1, 0, 0, 1)
+}
+
+SubShader {
+	Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
+	LOD 100
+
+	ZWrite Off
+	Blend SrcAlpha OneMinusSrcAlpha
+
+	Pass {
 		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard fullforwardshadows
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_fog
 
-		// Use shader model 3.0 target, to get nicer looking lighting
-		#pragma target 3.0
+			#include "UnityCG.cginc"
 
-		sampler2D _MainTex;
+			struct appdata_t {
+				float4 vertex : POSITION;
+				float2 texcoord : TEXCOORD0;
+			};
 
-		struct Input {
-			float2 uv_MainTex;
-		};
+			struct v2f {
+				float4 vertex : SV_POSITION;
+				half2 texcoord : TEXCOORD0;
+				UNITY_FOG_COORDS(1)
+			};
 
-		half _Glossiness;
-		half _Metallic;
-		fixed4 _Color;
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
+			fixed4 _Color;
 
-		void surf (Input IN, inout SurfaceOutputStandard o) {
-			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
-			// Metallic and smoothness come from slider variables
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
-			o.Alpha = c.a;
-		}
+			v2f vert (appdata_t v)
+			{
+				v2f o;
+				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				UNITY_TRANSFER_FOG(o,o.vertex);
+				return o;
+			}
+
+			fixed4 frag (v2f i) : SV_Target
+			{
+				fixed4 col = tex2D(_MainTex, i.texcoord);
+				if (col.r == 0 && col.g == 1 && col.b == 0) {
+					_Color.a = col.a;
+					col = _Color;
+				} else if (col.r == 0 && col.g == 0 && col.b == 0) {
+					col = fixed4(0, 0, 0, 0);
+				}
+				return col;
+			}
 		ENDCG
-	} 
-	FallBack "Diffuse"
+	}
+}
+
 }
