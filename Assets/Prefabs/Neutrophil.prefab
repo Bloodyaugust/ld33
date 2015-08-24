@@ -1,44 +1,44 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &119708
+--- !u!1 &173574
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 499358}
-  - 212: {fileID: 21219522}
-  - 50: {fileID: 5041774}
-  - 114: {fileID: 11479854}
-  - 58: {fileID: 5812106}
-  m_Layer: 8
-  m_Name: Virion
-  m_TagString: virion
+  - 4: {fileID: 440570}
+  - 212: {fileID: 21258658}
+  - 114: {fileID: 11401578}
+  - 58: {fileID: 5844238}
+  - 50: {fileID: 5096898}
+  m_Layer: 0
+  m_Name: Neutrophil
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &499358
+--- !u!4 &440570
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119708}
+  m_GameObject: {fileID: 173574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!50 &5041774
+--- !u!50 &5096898
 Rigidbody2D:
   serializedVersion: 2
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119708}
-  m_Mass: 1
+  m_GameObject: {fileID: 173574}
+  m_Mass: 100
   m_LinearDrag: 10
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -47,38 +47,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &5812106
+--- !u!58 &5844238
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119708}
+  m_GameObject: {fileID: 173574}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 8
---- !u!114 &11479854
+  m_Radius: 64
+--- !u!114 &11401578
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119708}
+  m_GameObject: {fileID: 173574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1461cb69a44f2a744b6880c36971def5, type: 3}
+  m_Script: {fileID: 11500000, guid: 17fa2c275efd12c40808b73595527a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infectionAmount: 3
-  topSpeed: 500
---- !u!212 &21219522
+  cytotoxinPrefab: {fileID: 150954, guid: 4dc13f4e9a791ec4b82be58638af318e, type: 2}
+  cytotoxinClip: 30
+--- !u!212 &21258658
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119708}
+  m_GameObject: {fileID: 173574}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -97,7 +97,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3bccffecca53c6c408fa3988b263e5cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3feaa152e80c978479b92d664b97791f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -107,32 +107,32 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: cytotoxinPrefab
+      value: 
+      objectReference: {fileID: 150954, guid: 4dc13f4e9a791ec4b82be58638af318e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_LinearDrag
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: topSpeed
-      value: 500
+      propertyPath: m_AngularDrag
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_GravityScale
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: infectionAmount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_TagString
-      value: virion
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Constraints
@@ -140,5 +140,5 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 119708}
+  m_RootGameObject: {fileID: 173574}
   m_IsPrefabParent: 1

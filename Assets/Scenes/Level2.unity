@@ -599,7 +599,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11450858, guid: b8d07cbc6636187468310071a882af25, type: 2}
       propertyPath: virusCount
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8d07cbc6636187468310071a882af25, type: 2}

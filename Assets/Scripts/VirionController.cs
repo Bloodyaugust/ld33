@@ -88,7 +88,7 @@ public class VirionController : MonoBehaviour {
 		CellController cell = col.gameObject.GetComponent<CellController>();
 
 		if (cell && cell.owner == "body") {
-			cell.Infect(infectionAmount);
+			cell.Infect(infectionAmount, new Vector2(transform.position.x, transform.position.y));
 			dead = true;
 		}
 	}

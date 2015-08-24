@@ -76,7 +76,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void TargetCell(CellController cell) {
-		selectedCell.Target(cell);
-		EnableTarget(cell.transform.position);
+		if (selectedCell) {
+			selectedCell.Target(cell);
+			EnableTarget(cell.transform.position);
+		}
 	}
 }

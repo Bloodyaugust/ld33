@@ -4,16 +4,20 @@ using System.Collections;
 
 public class CellController : MonoBehaviour {
 
+	public GameObject[] immuneBodyPrefabs;
 	public GameObject VirionPrefab;
 	public string owner = "body";
 	public float integrity = 100;
 	public float infection = 0;
 	public float spawnInterval = 2.5f;
 	public float fireInterval = 0.3f;
+	public float bodyGenerationChance = 0.05f;
 	public int virusCount = 0;
+	public bool generatesBodies = false;
 
 	Transform integrityBar;
 	Transform infectionBar;
+	Transform generationIndicator;
 	SpriteRenderer cellRenderer;
 	PlayerController player;
 	CellController targetCell;
@@ -34,10 +38,15 @@ public class CellController : MonoBehaviour {
 
 		integrity *= transform.localScale.x;
 		maxIntegrity = integrity;
-		spawnInterval = (Mathf.Acos(-transform.localScale.x / 4) * -1) + 3.1f;
+		spawnInterval = Mathf.Clamp(Mathf.Cos(transform.localScale.x / 2), 0.1f, 2);
 
 		if (owner == "body") {
 			SwitchToBodyControl();
+
+			if (generatesBodies) {
+				generationIndicator = transform.Find("BodyGenerationIndicator");
+				generationIndicator.GetComponent<SpriteRenderer>().enabled = true;
+			}
 		} else {
 			SwitchToPlayerControl();
 		}
@@ -47,11 +56,15 @@ public class CellController : MonoBehaviour {
 	void Update () {
 		GameObject newVirion;
 		VirionController newVirionController;
-		float integrityScale, infectionScale;
+		float integrityScale, infectionScale, indicatorScale;
 
 		if (!dead) {
 			if (owner == "body") {
+				if (generatesBodies) {
+					indicatorScale = (Mathf.Cos(Time.time * 16) * 0.1f) + 2;
 
+					generationIndicator.transform.localScale = new Vector3(indicatorScale, indicatorScale, 1);
+				}
 			} else {
 				timeToSpawn -= Time.deltaTime;
 				timeToFire -= Time.deltaTime;
@@ -116,12 +129,26 @@ public class CellController : MonoBehaviour {
 		targetCell = null;
 	}
 
-	public void Infect(float amount) {
+	public void Infect(float amount, Vector2 location) {
+		GameObject newImmuneBody;
+		Rigidbody2D newImmuneBodyRigidbody;
 		float newTint = Mathf.Lerp(1, fullyInfectedColor, infection / integrity);
 
 		infection += amount;
 		if (infection / integrity >= 1) {
 			SwitchToPlayerControl();
+		}
+
+		if (generatesBodies && Random.Range(0.0f, 1.0f) <= bodyGenerationChance) {
+			newImmuneBody = Instantiate(immuneBodyPrefabs[Random.Range(0, immuneBodyPrefabs.Length)], transform.position, Quaternion.identity) as GameObject;
+			newImmuneBodyRigidbody = newImmuneBody.GetComponent<Rigidbody2D>();
+
+			Vector2 targetDirection = location - (Vector2)transform.position;
+			targetDirection.Normalize();
+			targetDirection = targetDirection - new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f));
+			targetDirection.Normalize();
+
+			newImmuneBodyRigidbody.AddForce(targetDirection * (50000 + (transform.localScale.x * 20000)), ForceMode2D.Impulse);
 		}
 
 		cellRenderer.color = new Color(1, newTint, newTint);
