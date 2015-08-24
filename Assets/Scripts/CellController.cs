@@ -9,8 +9,6 @@ public class CellController : MonoBehaviour {
 	public string owner = "body";
 	public float integrity = 100;
 	public float infection = 0;
-	public float spawnInterval = 2.5f;
-	public float fireInterval = 0.3f;
 	public float bodyGenerationChance = 0.05f;
 	public int virusCount = 0;
 	public bool generatesBodies = false;
@@ -24,6 +22,8 @@ public class CellController : MonoBehaviour {
 	Text virusCountText;
 	float maxIntegrity;
 	float fullyInfectedColor = 0.4f;
+	float spawnInterval = 2.5f;
+	float fireInterval = 0.3f;
 	float timeToSpawn = 0;
 	float timeToFire = 0;
 	bool dead = false;
@@ -38,7 +38,8 @@ public class CellController : MonoBehaviour {
 
 		integrity *= transform.localScale.x;
 		maxIntegrity = integrity;
-		spawnInterval = Mathf.Clamp(Mathf.Cos(transform.localScale.x / 2), 0.1f, 2);
+		spawnInterval = Mathf.Clamp(Mathf.Cos(transform.localScale.x / 1.5f), 0.1f, 2);
+		fireInterval = Mathf.Clamp(Mathf.Cos(transform.localScale.x / 1.5f), 0.1f, 0.3f);
 
 		if (owner == "body") {
 			SwitchToBodyControl();
