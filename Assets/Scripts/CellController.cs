@@ -13,6 +13,7 @@ public class CellController : MonoBehaviour {
 	public int virusCount = 0;
 	public bool generatesBodies = false;
 
+	AudioSource infectSource;
 	Transform integrityBar;
 	Transform infectionBar;
 	Transform generationIndicator;
@@ -30,6 +31,7 @@ public class CellController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		infectSource = GetComponent<AudioSource>();
 		integrityBar = transform.Find("Integrity");
 		infectionBar = transform.Find("Infection");
 		player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -138,6 +140,7 @@ public class CellController : MonoBehaviour {
 		infection += amount;
 		if (infection / integrity >= 1) {
 			SwitchToPlayerControl();
+			infectSource.Play();
 		}
 
 		if (generatesBodies && Random.Range(0.0f, 1.0f) <= bodyGenerationChance) {

@@ -6,12 +6,14 @@ public class PlayerController : MonoBehaviour {
 	public GameObject selection;
 	public GameObject target;
 
+	AudioSource selectSource;
 	CellController selectedCell;
 	SpriteRenderer selectionRenderer;
 	SpriteRenderer targetRenderer;
 
 	// Use this for initialization
 	void Start () {
+		selectSource = GetComponent<AudioSource>();
 		selectionRenderer = selection.GetComponent<SpriteRenderer>();
 		targetRenderer = target.GetComponent<SpriteRenderer>();
 	}
@@ -73,12 +75,14 @@ public class PlayerController : MonoBehaviour {
 	public void SelectCell(CellController cell) {
 		selectedCell = cell;
 		EnableSelection(cell.transform.position);
+		AudioSource.PlayClipAtPoint(selectSource.clip, GameObject.FindWithTag("MainCamera").GetComponent<Camera>().ScreenToWorldPoint(new Vector3(0, 0, 0)));
 	}
 
 	public void TargetCell(CellController cell) {
 		if (selectedCell) {
 			selectedCell.Target(cell);
 			EnableTarget(cell.transform.position);
+			AudioSource.PlayClipAtPoint(selectSource.clip, GameObject.FindWithTag("MainCamera").GetComponent<Camera>().ScreenToWorldPoint(new Vector3(0, 0, 0)));
 		}
 	}
 }

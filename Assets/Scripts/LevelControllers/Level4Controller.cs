@@ -41,7 +41,7 @@ public class Level4Controller : MonoBehaviour {
 			winText.enabled = true;
 
 			if (Input.anyKey) {
-				Application.LoadLevel("Level5");
+				Application.Quit();
 			}
 		}
 	}

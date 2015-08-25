@@ -6,6 +6,7 @@ public class VirionController : MonoBehaviour {
 	public float infectionAmount = 3;
 	public float topSpeed = 100;
 
+	AudioSource launchSource;
 	CellController target;
 	Rigidbody2D physicsBody;
 	Vector3 roamHeading = new Vector3(0, 0, 0);
@@ -19,6 +20,7 @@ public class VirionController : MonoBehaviour {
 	void Start () {
 		float randX, randY;
 
+		launchSource = GetComponent<AudioSource>();
 		physicsBody = gameObject.GetComponent<Rigidbody2D>();
 		instanceID = GetInstanceID();
 		Vector3 directionVector = target.transform.position - transform.position;
@@ -38,6 +40,7 @@ public class VirionController : MonoBehaviour {
 		directionVector2D = new Vector2(directionVector.x, directionVector.y);
 
 		physicsBody.AddForce(directionVector2D, ForceMode2D.Impulse);
+		launchSource.Play();
 	}
 
 	// Update is called once per frame
